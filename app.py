@@ -1,89 +1,63 @@
 import streamlit as st
-import streamlit as st
 import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
-import streamlit as st
-import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
-
+import plotly.express as px
 st.set_page_config(
     page_title="Scientific Visualization"
 )
 
 st.header("Scientific Visualization", divider="gray")
 
-# --- Start of Streamlit App ---
 
-st.title("Gender Distribution Analysis")
-st.subheader("Distribution of Gender in Arts Faculty")
+# --- Streamlit Application Start ---
 
-# NOTE: In a real application, you would load your 'df' DataFrame here.
-# For demonstration, we'll create a dummy DataFrame that matches the structure 
-# the original code expects (columns 'Faculty' and 'Gender').
+st.title("Arts Faculty Gender Distribution Dashboard 📊")
+st.markdown("These interactive charts visualize the gender breakdown for students in the 'Arts' faculty.")
 
+# 1. Setup Dummy DataFrame (MUST have 'Faculty' and 'Gender' columns)
+# This simulates loading your 'df' DataFrame.
 data = {
-    'Faculty': ['Arts'] * 50 + ['Science'] * 50,
-    'Gender': ['Female'] * 30 + ['Male'] * 20 + ['Female'] * 15 + ['Male'] * 35
+    'Faculty': ['Arts'] * 70 + ['Science'] * 30,
+    'Gender': ['Female'] * 50 + ['Male'] * 15 + ['Other'] * 5 + ['Male'] * 30
 }
 df = pd.DataFrame(data)
 # --------------------------------------------------------------------------
 
+# Filter the DataFrame for Arts Faculty, as done in your original code
+arts_df = df[df['Faculty'] == 'Arts'].copy()
 
-# 1. Data Filtering
-arts_df = df[df['Faculty'] == 'Arts'].copy() # Filter for Arts faculty and create a copy
+# --- 1. Count Plot (Bar Chart) using Plotly Express ---
 
-# 2. Count Calculation
-gender_counts = arts_df['Gender'].value_counts()
+st.header("1. Gender Distribution in Arts Faculty (Bar Chart)")
 
-# 3. Matplotlib Figure Generation
-# Create the figure object explicitly to pass to st.pyplot()
-fig, ax = plt.subplots(figsize=(6, 6))
-
-ax.pie(
-    gender_counts, 
-    labels=gender_counts.index, 
-    autopct='%1.1f%%', 
-    startangle=90
+# Plotly Express automatically aggregates the counts for the Count Plot equivalent
+fig_bar = px.bar(
+    arts_df,
+    x='Gender',
+    title='Distribution of Gender in Arts Faculty',
+    labels={'Gender': 'Gender', 'count': 'Count'}, # Customize axis labels
+    color='Gender' # Optional: Color bars by gender
 )
 
-ax.set_title('Distribution of Gender in Arts Faculty')
-ax.axis('equal') # Equal aspect ratio ensures that pie is drawn as a circle.
+# Streamlit Display for Plotly figure
+st.plotly_chart(fig_bar, use_container_width=True)
 
+st.divider()
 
-# 4. Streamlit Display
-st.pyplot(fig)
+# --- 2. Pie Chart using Plotly Express ---
 
-# --- Start of Streamlit App ---
+st.header("2. Gender Distribution in Arts Faculty (Pie Chart)")
 
-st.title("Gender Distribution Analysis")
-st.subheader("Count Plot of Gender")
+# Calculate the value counts (counts of each gender) for the Pie Chart
+gender_counts_arts = arts_df['Gender'].value_counts().reset_index()
+gender_counts_arts.columns = ['Gender', 'Count'] # Rename columns for Plotly
 
-# NOTE: In a real application, you would load your 'df' DataFrame here.
-# For demonstration, we'll create a dummy DataFrame that matches the structure 
-# the original code expects (column 'Gender').
+fig_pie = px.pie(
+    gender_counts_arts,
+    values='Count',
+    names='Gender',
+    title='Distribution of Gender in Arts Faculty',
+    hole=0.3 # Optional: Makes it a donut chart
+)
 
-data = {
-    'Gender': ['Female'] * 60 + ['Male'] * 40 + ['Other'] * 5,
-    'Age': [20] * 105
-}
-df = pd.DataFrame(data)
-# --------------------------------------------------------------------------
-
-
-# 1. Matplotlib Figure Generation
-# Create the figure and axes objects explicitly to pass the figure to st.pyplot()
-fig, ax = plt.subplots(figsize=(8, 6))
-
-# Use Seaborn to create the count plot on the defined axes (ax)
-sns.countplot(data=df, x='Gender', ax=ax)
-
-# Set the title and labels using Matplotlib's axes object
-ax.set_title('Distribution of Gender')
-ax.set_xlabel('Gender')
-ax.set_ylabel('Count')
-
-
-# 2. Streamlit Display
-st.pyplot(fig)
+# Streamlit Display for Plotly figure
+st.plotly_chart(fig_pie, use_container_width=True)
