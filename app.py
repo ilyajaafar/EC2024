@@ -2,21 +2,13 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 import numpy as np # Used for creating sample data
-st.set_page_config(
-    page_title="Scientific Visualization"
-)
+
+st.set_page_config(layout="wide", page_title="Student Data Analysis Dashboard")
 
 st.header("Scientific Visualization", divider="gray")
-
-
-# --- Streamlit Application Start ---
-
-# Set page configuration for a wider layout
-st.set_page_config(layout="wide", page_title="Student Data Analysis Dashboard")
 st.title("📊 Student Enrollment and Academic Performance Analysis")
 
 # --- 1. Create a Sample DataFrame (Assuming your 'df' is loaded here) ---
-# Replace this section with your actual data loading (e.g., df = pd.read_csv('your_data.csv'))
 @st.cache_data
 def load_data():
     np.random.seed(42)
@@ -58,6 +50,8 @@ with col2:
     )
     st.plotly_chart(fig_pie, use_container_width=True)
 
+st.divider() # Added a divider for better visual separation
+
 # --- 3. Distribution of Bachelor Academic Year (Horizontal Bar & Pie) ---
 
 st.header("2. Bachelor Academic Year Distribution")
@@ -83,7 +77,9 @@ with col4:
     fig_pie_year = px.pie(
         df, names='Bachelor Academic Year in EU', title='Distribution of Bachelor Academic Year'
     )
-    (st.plotly_chart(fig_pie_year, use_container_width=True)
+    st.plotly_chart(fig_pie_year, use_container_width=True)
+
+st.divider() # Added a divider for better visual separation
 
 # --- 4. Distribution of S.S.C (GPA) (Line Plot) ---
 
@@ -105,4 +101,3 @@ fig_line.update_xaxes(showgrid=True, tickangle=45)
 fig_line.update_yaxes(showgrid=True)
 
 st.plotly_chart(fig_line, use_container_width=True)
-st.plotly_chart(fig_pie, use_container_width=True
