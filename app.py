@@ -80,28 +80,34 @@ st.plotly_chart(fig_year_pie, use_container_width=True)
 # ================================
 st.header("3️⃣ Distribution of S.S.C (GPA)")
 
-# Calculate counts for each GPA value
-ssc_gpa_counts = df['S.S.C (GPA)'].value_counts().sort_index().reset_index()
-ssc_gpa_counts.columns = ['S.S.C (GPA)', 'Count']
+ssc_gpa_counts = df['S.S.C (GPA)'].value_counts().sort_index()
 
-# Line chart (replicates Matplotlib style)
+# Convert to DataFrame for Plotly
+ssc_gpa_df = pd.DataFrame({
+    'S.S.C (GPA)': ssc_gpa_counts.index,
+    'Count': ssc_gpa_counts.values
+})
+
+# Plotly line chart (replicates Matplotlib style)
 fig_gpa = px.line(
-    ssc_gpa_counts,
+    ssc_gpa_df,
     x='S.S.C (GPA)',
     y='Count',
     markers=True,
     title='Distribution of S.S.C (GPA)'
 )
 
+# Style tweaks for readability and similarity to Matplotlib output
 fig_gpa.update_layout(
     xaxis_title='S.S.C (GPA)',
     yaxis_title='Count',
     xaxis=dict(tickangle=45, showgrid=True),
     yaxis=dict(showgrid=True),
     template='plotly_white',
-    title_x=0.5,  # center title
+    title_x=0.5,
     font=dict(size=14)
 )
 
+# Display chart
 st.plotly_chart(fig_gpa, use_container_width=True)
 
