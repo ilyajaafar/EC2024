@@ -12,7 +12,7 @@ data = {
 }
 df = pd.DataFrame(data)
 
-st.title("📊 Data Visualization Dashboard (Converted to Streamlit + Plotly)")
+st.title("📊 Data Visualization Dashboard")
 
 # ================================
 # 1️⃣ Gender distribution (Arts Faculty)
@@ -80,9 +80,11 @@ st.plotly_chart(fig_year_pie, use_container_width=True)
 # ================================
 st.header("3️⃣ Distribution of S.S.C (GPA)")
 
+# Calculate counts for each GPA value
 ssc_gpa_counts = df['S.S.C (GPA)'].value_counts().sort_index().reset_index()
 ssc_gpa_counts.columns = ['S.S.C (GPA)', 'Count']
 
+# Line chart (replicates Matplotlib style)
 fig_gpa = px.line(
     ssc_gpa_counts,
     x='S.S.C (GPA)',
@@ -90,8 +92,16 @@ fig_gpa = px.line(
     markers=True,
     title='Distribution of S.S.C (GPA)'
 )
-fig_gpa.update_layout(xaxis_title='S.S.C (GPA)', yaxis_title='Count')
-st.plotly_chart(fig_gpa, use_container_width=True)
 
-st.success("✅ All visualizations successfully rendered with Streamlit + Plotly!")
+fig_gpa.update_layout(
+    xaxis_title='S.S.C (GPA)',
+    yaxis_title='Count',
+    xaxis=dict(tickangle=45, showgrid=True),
+    yaxis=dict(showgrid=True),
+    template='plotly_white',
+    title_x=0.5,  # center title
+    font=dict(size=14)
+)
+
+st.plotly_chart(fig_gpa, use_container_width=True)
 
