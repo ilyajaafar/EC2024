@@ -2,7 +2,6 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
-
 # Example dummy data (for testing only)
 data = {
     'Faculty': ['Arts', 'Arts', 'Science', 'Arts', 'Engineering', 'Arts', 'Science', 'Arts'],
@@ -78,7 +77,7 @@ st.plotly_chart(fig_year_pie, use_container_width=True)
 # ================================
 # 3️⃣ Distribution of S.S.C (GPA)
 # ================================
-st.header(" 3️⃣ Distribution of S.S.C (GPA)")
+st.header("3️⃣ Distribution of S.S.C (GPA)")
 
 # Create histogram with density (KDE-like) overlay
 fig = px.histogram(
@@ -90,7 +89,18 @@ fig = px.histogram(
     opacity=0.8
 )
 
-# Add a smooth density curve (KDE) using Plotly's density option
-fig.update_traces(marker_line_width=1, marker_l
+# Customize appearance (fixing the cut line)
+fig.update_traces(marker_line_width=1, marker_line_color='black')
+
+fig.update_layout(
+    xaxis_title='S.S.C (GPA)',
+    yaxis_title='Frequency',
+    template='plotly_white',
+    title_x=0.5,  # center title
+    font=dict(size=14)
+)
+
+st.plotly_chart(fig, use_container_width=True)
+
 
 
