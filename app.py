@@ -58,8 +58,6 @@ with col2:
     )
     st.plotly_chart(fig_pie, use_container_width=True)
 
----
-
 # --- 3. Distribution of Bachelor Academic Year (Horizontal Bar & Pie) ---
 
 st.header("2. Bachelor Academic Year Distribution")
@@ -86,8 +84,6 @@ with col4:
         df, names='Bachelor Academic Year in EU', title='Distribution of Bachelor Academic Year'
     )
     st.plotly_chart(fig_pie_year, use_container_width=True)
-
----
 
 # --- 4. Distribution of S.S.C (GPA) (Line Plot) ---
 
