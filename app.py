@@ -83,7 +83,7 @@ with col4:
     fig_pie_year = px.pie(
         df, names='Bachelor Academic Year in EU', title='Distribution of Bachelor Academic Year'
     )
-    st.plotly_chart(fig_pie_year, use_container_width=True)
+    (st.plotly_chart(fig_pie_year, use_container_width=True)
 
 # --- 4. Distribution of S.S.C (GPA) (Line Plot) ---
 
