@@ -76,38 +76,21 @@ fig_year_pie = px.pie(
 st.plotly_chart(fig_year_pie, use_container_width=True)
 
 # ================================
-# 3️⃣ S.S.C (GPA) Distribution
+# 3️⃣ Distribution of S.S.C (GPA)
 # ================================
-st.header("3️⃣ Distribution of S.S.C (GPA)")
+st.header(" 3️⃣ Distribution of S.S.C (GPA)")
 
-ssc_gpa_counts = df['S.S.C (GPA)'].value_counts().sort_index()
-
-# Convert to DataFrame for Plotly
-ssc_gpa_df = pd.DataFrame({
-    'S.S.C (GPA)': ssc_gpa_counts.index,
-    'Count': ssc_gpa_counts.values
-})
-
-# Plotly line chart (replicates Matplotlib style)
-fig_gpa = px.line(
-    ssc_gpa_df,
+# Create histogram with density (KDE-like) overlay
+fig = px.histogram(
+    df,
     x='S.S.C (GPA)',
-    y='Count',
-    markers=True,
-    title='Distribution of S.S.C (GPA)'
+    nbins=10,  # adjust number of bins if needed
+    marginal='box',  # adds a small boxplot on top (optional)
+    title='Distribution of S.S.C (GPA)',
+    opacity=0.8
 )
 
-# Style tweaks for readability and similarity to Matplotlib output
-fig_gpa.update_layout(
-    xaxis_title='S.S.C (GPA)',
-    yaxis_title='Count',
-    xaxis=dict(tickangle=45, showgrid=True),
-    yaxis=dict(showgrid=True),
-    template='plotly_white',
-    title_x=0.5,
-    font=dict(size=14)
-)
+# Add a smooth density curve (KDE) using Plotly's density option
+fig.update_traces(marker_line_width=1, marker_l
 
-# Display chart
-st.plotly_chart(fig_gpa, use_container_width=True)
 
